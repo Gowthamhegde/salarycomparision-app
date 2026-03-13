@@ -5,14 +5,8 @@
   "scripts": {
     "dev": "node --watch index.js",
     "start": "node index.js",
-    "build": "echo 'Server build complete'",
-    "postinstall": "prisma generate",
-    "vercel-build": "prisma generate",
-    "setup": "node setup-database.js",
-    "import-csv": "node prisma/import-csv.js",
-    "test-db": "node test-db.js",
-    "db:reset": "prisma db push --force-reset && npm run import-csv",
-    "db:studio": "prisma studio"
+    "build": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",

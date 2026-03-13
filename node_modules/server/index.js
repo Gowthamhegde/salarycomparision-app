@@ -6,11 +6,15 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import salaryRoutes from './routes/salaries.js';
 import authRoutes from './routes/auth.js';
 import statsRoutes from './routes/stats.js';
 import predictorRoutes from './routes/predictor.js';
-import adminRoutes from './routes/admin.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -38,6 +42,9 @@ app.use(cookieParser());
 app.use(mongoSanitize()); // Data sanitization
 app.use(xss()); // XSS protection
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/api/salaries', salaryRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/stats', statsRoutes);
@@ -45,6 +52,11 @@ app.use('/api/predictor', predictorRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Serve the frontend for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 if (!process.env.VERCEL) {

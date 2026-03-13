@@ -5,10 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "cd server && npm start",
-    "build": "cd client && npm install && npm run build && cd ../server && npm install",
-    "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\""
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
+    "build": "cd server && npm install && npx prisma generate",
+    "dev": "cd server && npm run dev"
   }
 }
